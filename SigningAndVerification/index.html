@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+
+    console.log("Here");
+
+    function signAndVerify() {
+      const message = document.getElementById('message').value;
+      socket.emit('sign and verify', message, (isVerified, privateKeyPem, signature, publicKeyPem) => {
+        document.getElementById('result').textContent = "Signature is verified: " + isVerified;
+        //  + ' \\nsignature: ' + signature + ' \\npublickeyPem: ' + publicKeyPem ;
+        document.getElementById('privateKey').textContent = ' Private Key : ' + privateKeyPem;
+        document.getElementById('signature').textContent = ' Signature : ' + signature;;
+        document.getElementById('publicKey').textContent = ' Public Key : ' + publicKeyPem;;
+      });
+    }
+  </script>
+</head>
+
+<body>
+  <input id="message" type="text" placeholder="Enter a message">
+  <button onclick="signAndVerify()">Sign and Verify</button>
+  <p id="result"></p>
+  <p id="privateKey"></p>
+  <p id="signature"></p>
+  <p id="publicKey"></p>
+</body>
+
+</html>
