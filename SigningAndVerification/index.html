@@ -8,26 +8,43 @@
 
     console.log("Here");
 
-    function signAndVerify() {
-      const message = document.getElementById('message').value;
-      socket.emit('sign and verify', message, (isVerified, privateKeyPem, signature, publicKeyPem) => {
+    function signAndVerifySHA256() {
+      const message = document.getElementById('message1').value;
+      socket.emit('sign and verify SHA256', message, (isVerified, privateKeyPem, signature, publicKeyPem) => {
         document.getElementById('result').textContent = "Signature is verified: " + isVerified;
-        //  + ' \\nsignature: ' + signature + ' \\npublickeyPem: ' + publicKeyPem ;
         document.getElementById('privateKey').textContent = ' Private Key : ' + privateKeyPem;
         document.getElementById('signature').textContent = ' Signature : ' + signature;;
         document.getElementById('publicKey').textContent = ' Public Key : ' + publicKeyPem;;
       });
+
+      function signAndVerifyEd25519() {
+        const message = document.getElementById('message2').value;
+
+
+      }
     }
   </script>
 </head>
 
 <body>
-  <input id="message" type="text" placeholder="Enter a message">
-  <button onclick="signAndVerify()">Sign and Verify</button>
-  <p id="result"></p>
-  <p id="privateKey"></p>
-  <p id="signature"></p>
-  <p id="publicKey"></p>
+  <p id="SHA256">
+    <h4>Signing using SHA256</h4>
+    <input id="message1" type="text" placeholder="Enter a message">
+    <button onclick="signAndVerifySHA256()">Sign and Verify</button>
+    <p id="result"></p>
+    <p id="privateKey"></p>
+    <p id="signature"></p>
+    <p id="publicKey"></p>
+  </p>
+  <p id="Ed25519">
+    <h4>Signing using Ed25519</h4>
+    <input id="message2" type="text" placeholder="Enter a message">
+    <button onclick="signAndVerify()">Sign and Verify</button>
+    <p id="result"></p>
+    <p id="privateKey"></p>
+    <p id="signature"></p>
+    <p id="publicKey"></p>
+  </p>
 </body>
 
 </html>
