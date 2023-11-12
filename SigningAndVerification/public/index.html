@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script src="/socket.io/socket.io.js"></script>
+  <script type="module" src="/signAndVerify.js"></script>
+  <script>
+    const socket = io();
+
+    function signAndVerifySHA256() {
+      const message = document.getElementById('message1').value;
+      socket.emit('sign and verify SHA256', message, (isVerified, privateKeyPem, signature, publicKeyPem) => {
+        document.getElementById('result1').textContent = "Signature is verified: " + isVerified;
+        document.getElementById('privateKey1').textContent = ' Private Key : ' + privateKeyPem;
+        document.getElementById('signature1').textContent = ' Signature : ' + signature;
+        document.getElementById('publicKey1').textContent = ' Public Key : ' + publicKeyPem;
+      });
+
+    }
+  </script>
+</head>
+
+<body>
+  <p id="SHA256">
+  <h4>Signing using SHA256</h4>
+  <input id="message1" type="text" placeholder="Enter a message">
+  <button onclick="signAndVerifySHA256()">Sign and Verify</button>
+  <p id="result1"></p>
+  <p id="privateKey1"></p>
+  <p id="signature1"></p>
+  <p id="publicKey1"></p>
+  </p>
+  <p id="Ed25519">
+  <h4>Signing using Ed25519</h4>
+  <input id="message2" type="text" placeholder="Enter a message">
+  <button onclick="signAndVerify()">Sign and Verify</button>
+  <p id="result2"></p>
+  <p id="privateKey"></p>
+  <p id="signature"></p>
+  <p id="publicKey"></p>
+  </p>
+</body>
+
+</html>

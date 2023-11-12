@@ -1,6 +1,4 @@
 
-//import { randomBytes } from 'ed25519-keygen/utils';
-//const ed25519 = require('@noble/ed25519');
 const express = require('express');
 const http = require('http');
 const forge = require('node-forge');
@@ -13,7 +11,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 
-app.use(express.static(path.join(__dirname)));
+app.use(express.static('public'));
 
 // SHA256 Signing
 io.on('connection', (socket) => {
@@ -29,15 +27,16 @@ io.on('connection', (socket) => {
     const isVerified = verify.verify(publicKeyPem, signature, 'hex');
     callback(isVerified, privateKeyPem, signature, publicKeyPem);
   });
+
 });
 
-// Ed25519 Signing
-
-//ed25519.verify(skyes.signature, );
-
-
 app.get('/', (req, res) => {
-    res.sendFile(`${__dirname}/index.html`);
+  res.sendFile(`${__dirname}/index.html`);
+});
+
+app.get('/signAndVerify.js', (req, res) => {
+  console.log("Here!");
+  res.sendFile(`${__dirname}/signAndVerify.js`);
 });
 
 server.listen(3000, () => {
